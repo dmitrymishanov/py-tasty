@@ -21,3 +21,4 @@ def test_case__failed():
     case.run()
     assert case.ran
     assert case.status is CaseStatus.failed
+    assert case.error == 'assert (2 + 2) == 5'

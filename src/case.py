@@ -11,14 +11,16 @@ class CaseStatus(Enum):
 @dataclass
 class Case:
     content: Callable
-    status: CaseStatus | None = None
     ran: bool = False
+    status: CaseStatus | None = None
+    error: str | None = None
 
     def run(self) -> None:
         try:
             self.content()
         except AssertionError as e:
             self.status = CaseStatus.failed
+            self.error = e.args[0]
         else:
             self.status = CaseStatus.success
         finally:
