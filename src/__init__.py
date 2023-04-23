@@ -1,4 +1,5 @@
 # TODO suite
+# TODO catch errors in tests
 # TODO CLI
 # TODO report
 # TODO parametrize
