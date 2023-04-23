@@ -9,6 +9,7 @@ class Suite:
     ran: bool = False
     success: int = 0
     failure: int = 0
+    errors: int = 0
 
     def run(self):
         for case in self.cases:
@@ -17,5 +18,7 @@ class Suite:
                 self.success += 1
             elif case.status is CaseStatus.failed:
                 self.failure += 1
+            elif case.status is CaseStatus.error:
+                self.errors += 1
 
         self.ran = True

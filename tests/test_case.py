@@ -1,3 +1,5 @@
+from types import TracebackType
+
 from src.case import Case, CaseStatus
 
 
@@ -29,4 +31,20 @@ def test_case__failed():
     # assert
     assert case.ran
     assert case.status is CaseStatus.failed
-    assert case.error == 'assert (2 + 2) == 5'
+    assert case.failure_reason == 'assert (2 + 2) == 5'
+
+
+def test_case__error():
+    # arrange
+    def error_test_case():
+        1 / 0
+
+    case = Case(error_test_case)
+
+    # act
+    case.run()
+
+    # assert
+    assert case.ran
+    assert case.status is CaseStatus.error
+    assert isinstance(case.tb, TracebackType)
