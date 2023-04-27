@@ -4,7 +4,10 @@ version = "0.1.0"
 description = ""
 authors = ["Dmitry Mishanov <d.mishanov@cian.ru>"]
 readme = "README.md"
-packages = [{include = "py_tasty"}]
+packages = [{include = "src"}]
+
+[tool.poetry.scripts]
+pytasty = "src.cli:run"
 
 [tool.poetry.dependencies]
 click = '^8.1.3'
