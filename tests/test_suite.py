@@ -7,15 +7,18 @@ def test_suite():
     # arrange
     def success():
         assert_eq(2 + 2, 4)
+
     success_case_1 = Case(success)
     success_case_2 = Case(success)
 
     def failure():
         assert_eq(2 + 2, 5)
+
     failure_case = Case(failure)
 
     def error():
         1 / 0
+
     error_case = Case(error)
 
     suite = Suite(cases=[success_case_1, success_case_2, failure_case, error_case])
@@ -34,10 +37,12 @@ def test_suite__errors_doesnt_break_whole_suite():
     # arrange
     def error():
         1 / 0
+
     error_case = Case(error)
 
     def success():
         assert_eq(2 + 2, 4)
+
     success_case = Case(success)
 
     # error case is first

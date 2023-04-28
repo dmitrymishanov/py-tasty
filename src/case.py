@@ -32,5 +32,3 @@ class Case:
             self.status = CaseStatus.success
         finally:
             self.ran = True
-
-
