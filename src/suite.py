@@ -3,6 +3,7 @@ import os
 from dataclasses import dataclass, field
 from inspect import getmembers, isfunction
 from pathlib import Path
+from typing import MutableMapping
 
 from src.case import Case, CaseStatus
 
@@ -11,9 +12,7 @@ from src.case import Case, CaseStatus
 class Suite:
     cases: list[Case] = field(default_factory=list)
     ran: bool = False
-    success: int = 0
-    failure: int = 0
-    errors: int = 0
+    results: MutableMapping[CaseStatus, int] = field(default_factory=lambda: {s: 0 for s in CaseStatus})
 
     @classmethod
     def from_path(cls, path: Path) -> 'Suite':
@@ -30,11 +29,5 @@ class Suite:
     def run(self) -> None:
         for case in self.cases:
             case.run()
-            if case.status is CaseStatus.success:
-                self.success += 1
-            elif case.status is CaseStatus.failed:
-                self.failure += 1
-            elif case.status is CaseStatus.error:
-                self.errors += 1
-
+            self.results[case.status] += 1
         self.ran = True
