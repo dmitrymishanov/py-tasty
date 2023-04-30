@@ -28,11 +28,14 @@ def test_suite():
 
     # assert
     assert_true(suite.ran)
-    assert_eq(suite.results, {
-        CaseStatus.success: 2,
-        CaseStatus.failed: 1,
-        CaseStatus.error: 1,
-    })
+    assert_eq(
+        suite.results,
+        {
+            CaseStatus.success: 2,
+            CaseStatus.failed: 1,
+            CaseStatus.error: 1,
+        },
+    )
 
 
 def test_suite__errors_doesnt_break_whole_suite():
@@ -54,8 +57,11 @@ def test_suite__errors_doesnt_break_whole_suite():
     suite.run()
 
     # assert
-    assert_eq(suite.results, {
-        CaseStatus.success: 1,
-        CaseStatus.failed: 0,
-        CaseStatus.error: 1,
-    })
+    assert_eq(
+        suite.results,
+        {
+            CaseStatus.success: 1,
+            CaseStatus.failed: 0,
+            CaseStatus.error: 1,
+        },
+    )

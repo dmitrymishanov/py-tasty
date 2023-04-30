@@ -13,6 +13,8 @@ from src.suite import Suite
 def run(verbose: bool, path: Path) -> None:
     suite = Suite.from_path(path)
     suite.run(verbose=verbose)
-    print(f'Success: {suite.results[CaseStatus.success]}, '
-          f'Failures: {suite.results[CaseStatus.failed]}, '
-          f'Errors: {suite.results[CaseStatus.error]}')
+    print(
+        f'Success: {suite.results[CaseStatus.success]}, '
+        f'Failures: {suite.results[CaseStatus.failed]}, '
+        f'Errors: {suite.results[CaseStatus.error]}'
+    )

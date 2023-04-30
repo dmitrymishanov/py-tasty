@@ -1,6 +1,6 @@
 from types import TracebackType
 
-from src.asserts import assert_eq, assert_true, assert_is, assert_isinstance
+from src.asserts import assert_eq, assert_is, assert_isinstance, assert_true
 from src.case import Case, CaseStatus
 
 
