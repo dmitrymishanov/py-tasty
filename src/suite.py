@@ -26,8 +26,8 @@ class Suite:
                             cases.append(Case(member))
         return cls(cases=cases)
 
-    def run(self) -> None:
+    def run(self, verbose: bool = False) -> None:
         for case in self.cases:
-            case.run()
+            case.run(verbose=verbose)
             self.results[case.status] += 1
         self.ran = True

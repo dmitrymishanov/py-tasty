@@ -19,7 +19,19 @@ class Case:
     failure_reason: str | None = None
     tb: TracebackType | None = None
 
-    def run(self) -> None:
+    @property
+    def name(self):
+        return self.content.__name__
+
+    def run(self, verbose: bool = False) -> None:
+        if verbose:
+            print(self.name, end='')
+        self._run()
+        if verbose:
+            msg = self.status.name.upper()
+            print('.' * (80 - len(self.name) - len(msg)), msg)
+
+    def _run(self) -> None:
         try:
             self.content()
         except AssertionError as e:
