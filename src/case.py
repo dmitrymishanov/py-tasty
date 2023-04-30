@@ -1,8 +1,9 @@
 import sys
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from types import TracebackType
+from typing import Any
 
 
 class CaseStatus(Enum):
@@ -13,15 +14,19 @@ class CaseStatus(Enum):
 
 @dataclass
 class Case:
-    content: Callable
+    test_func: Callable
     ran: bool = False
     status: CaseStatus | None = None
     failure_reason: str | None = None
     tb: TracebackType | None = None
+    suffix: str = ''
+    params: dict[str, Any] = field(default_factory=dict)
 
     @property
     def name(self):
-        return self.content.__name__
+        if self.suffix:
+            return self.test_func.__name__ + '__' + self.suffix
+        return self.test_func.__name__
 
     def run(self, verbose: bool = False) -> None:
         if verbose:
@@ -33,7 +38,7 @@ class Case:
 
     def _run(self) -> None:
         try:
-            self.content()
+            self.test_func(**self.params)
         except AssertionError as e:
             self.status = CaseStatus.failed
             self.failure_reason = e.args[0]

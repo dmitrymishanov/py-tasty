@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import MutableMapping
 
 from src.case import Case, CaseStatus
+from src.parametrize import ParametrizedProxy
 
 
 @dataclass
@@ -22,8 +23,11 @@ class Suite:
                 if file.startswith('test_') and file.endswith('.py'):
                     module = importlib.import_module(str(Path(f'{path}/{file}')).replace('/', '.').replace('.py', ''))
                     for name, member in getmembers(module):
-                        if name.startswith('test_') and isfunction(member):
-                            cases.append(Case(member))
+                        if name.startswith('test_'):
+                            if isfunction(member):
+                                cases.append(Case(member))
+                            elif isinstance(member, ParametrizedProxy):
+                                cases.extend(member.cases)
         return cls(cases=cases)
 
     def run(self, verbose: bool = False) -> None:
