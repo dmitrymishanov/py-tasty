@@ -1,26 +1,43 @@
 from src.asserts import assert_eq, assert_true
 from src.case import Case, CaseStatus
+from src.fixture import fixture
 from src.suite import Suite
 
 
-def test_suite():
+def success():
+    assert_eq(2 + 2, 4)
+
+
+def failure():
+    assert_eq(2 + 2, 5)
+
+
+def error():
+    1 / 0
+
+
+@fixture
+def success_case_1():
+    return Case(success)
+
+
+@fixture
+def success_case_2():
+    return Case(success)
+
+
+@fixture
+def failure_case():
+    return Case(failure)
+
+
+@fixture
+def error_case():
+    return Case(error)
+
+
+def test_suite(success_case_1, success_case_2, failure_case, error_case):
     # arrange
-    def success():
-        assert_eq(2 + 2, 4)
-
-    success_case_1 = Case(success)
-    success_case_2 = Case(success)
-
-    def failure():
-        assert_eq(2 + 2, 5)
-
-    failure_case = Case(failure)
-
-    def error():
-        1 / 0
-
-    error_case = Case(error)
-
     suite = Suite(cases=[success_case_1, success_case_2, failure_case, error_case])
 
     # act

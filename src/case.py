@@ -1,9 +1,12 @@
+import inspect
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from types import TracebackType
 from typing import Any
+
+from src.fixture import get_fixture
 
 
 class CaseStatus(Enum):
@@ -28,6 +31,11 @@ class Case:
             return self.test_func.__name__ + '__' + self.suffix
         return self.test_func.__name__
 
+    @property
+    def fixtures(self) -> dict[str, Callable]:
+        fixture_names = set(inspect.getfullargspec(self.test_func).args) - self.params.keys()
+        return {name: get_fixture(name) for name in fixture_names}
+
     def run(self, verbose: bool = False) -> None:
         if verbose:
             print(self.name, end='')
@@ -38,7 +46,7 @@ class Case:
 
     def _run(self) -> None:
         try:
-            self.test_func(**self.params)
+            self.test_func(**self.params, **self.fixtures)
         except AssertionError as e:
             self.status = CaseStatus.failed
             self.failure_reason = e.args[0]
