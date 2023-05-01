@@ -16,7 +16,7 @@ def error():
     1 / 0
 
 
-@fixture
+@fixture()
 def success_case_1():
     return Case(success)
 
@@ -26,7 +26,7 @@ def success_case_2():
     return Case(success)
 
 
-@fixture
+@fixture(scope='session')
 def failure_case():
     return Case(failure)
 
